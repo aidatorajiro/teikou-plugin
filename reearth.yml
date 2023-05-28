@@ -6,7 +6,7 @@ extensions:
     type: widget
     name: SVN
   - id: ttsinfo
-    type: infobox
+    type: block
     name: TTS info for SVN
     schema:
       groups:
