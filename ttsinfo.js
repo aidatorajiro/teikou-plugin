@@ -1,5 +1,5 @@
 const html = `
-  <div id="tts-contents">HELLO</div>
+  <span id="tts-contents" style="color: white;">HELLO</span>
   <script>
         const cb = (block) => {
           console.log(block)
