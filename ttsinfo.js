@@ -13,7 +13,7 @@ const html = `
 
         addEventListener("message", e => {
           if (e.source !== parent || !e.data.block) return;
-          cb(e.data);
+          cb(e.data.block);
         });
 
         cb(${JSON.stringify(reearth.block)});
