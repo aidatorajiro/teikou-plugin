@@ -6,12 +6,12 @@ extensions:
     type: widget
     name: SVN
   - id: ttsinfo
-    type: block
+    type: infobox
     name: TTS info for SVN
     schema:
       groups:
         - id: default
           fields:
             - id: textdata
-              type: rect
+              type: string
               title: Text Data
