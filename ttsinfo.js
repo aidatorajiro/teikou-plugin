@@ -26,3 +26,5 @@ reearth.on("update", () => {
         block: reearth.block
     });
 });
+
+console.log("hello")
