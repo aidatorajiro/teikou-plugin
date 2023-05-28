@@ -1,11 +1,13 @@
 const html = `
-  <div id="tts-contents"></div>
+  <div id="tts-contents">HELLO</div>
   <script>
   document.getElementById("tts-contents").addEventListener("load", () => {
         const cb = (block) => {
           if (block && block.property && block.property.default && block.property.default.textdata) {
             const textdata = block.property.default.textdata
             document.getElementById("tts-contents").innerHTML = textdata;
+          } else {
+            document.getElementById("tts-contents").innerHTML = "NANANANA";
           }
         };
 
