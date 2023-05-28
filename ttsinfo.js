@@ -1,6 +1,7 @@
 const html = `
   <div id="tts-contents"></div>
   <script>
+  document.getElementById("tts-contents").addEventListener("load", () => {
         const cb = (block) => {
           if (block && block.property && block.property.default && block.property.default.textdata) {
             const textdata = block.property.default.textdata
@@ -14,6 +15,7 @@ const html = `
         });
 
         cb(${JSON.stringify(reearth.block)});
+    });
     </script>
 `;
 
