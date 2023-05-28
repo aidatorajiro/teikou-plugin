@@ -13,5 +13,5 @@ extensions:
         - id: default
           fields:
             - id: textdata
-              type: typography
+              type: rect
               title: Text Data
