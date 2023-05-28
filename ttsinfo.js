@@ -3,6 +3,7 @@ const html = `
   <script>
   document.getElementById("tts-contents").addEventListener("load", () => {
         const cb = (block) => {
+          console.log(block)
           if (block && block.property && block.property.default && block.property.default.textdata) {
             const textdata = block.property.default.textdata
             document.getElementById("tts-contents").innerHTML = textdata;
