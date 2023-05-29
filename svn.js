@@ -68,7 +68,7 @@ addEventListener("message", e => {
 });
 
 setInterval(function () {
-    if (Math.random() < 0.04) {
+    if (Math.random() < 0.01) {
         let random_tts = all_ttsinfo[Math.floor(Math.random() * all_ttsinfo.length)]
         let segments = random_tts.split("。").filter((x)=>(x !== ""))
         console.log(segments)
