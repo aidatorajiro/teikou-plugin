@@ -81,7 +81,7 @@ setInterval(function () {
             let sound = new Howl({
                 src: ['https://aidatorajiro.dev/waveout/' + d + '.wav.hi.wav'],
                 onend: function() {
-                    if (d.length > 0) {
+                    if (digests.length > 0) {
                         recfun()
                     }
                 }
