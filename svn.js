@@ -23,13 +23,13 @@ let database = [
 
 let database_volume = [
     [1],
-    [0.05, {'呪縛霊': 1}],
+    [0.05, {'呪縛霊1': 1}],
     [1],
-    [0.05, {'呪縛霊': 1}],
+    [0.05, {'呪縛霊2': 1}],
     [1],
-    [0.05, {'呪縛霊': 1}],
+    [0.05, {'呪縛霊3': 1}],
     [1],
-    [0.05, {'呪縛霊': 1}]
+    [0.05, {'呪縛霊4': 1}]
 ]
 
 let m = (from, to, time) => (from + (to - from) * time)
@@ -60,7 +60,7 @@ addEventListener("message", e => {
         for (let s in all_sounds) {
             let o1 = s.tts_volfrom;
             let o2 = s.tts_volto;
-            console.log(s);
+            console.log(s, o1, o2);
             s.sound(morph_volume(o1, o2, calma));
         }
     }, 1000/60)
@@ -129,7 +129,7 @@ setInterval(function () {
                         recfun()
                     }
                 },
-                volume: ch(database_volume[i % database.length],metadata)
+                volume: ch(database_volume[(i - 1) % database.length],metadata)
             });
         
             sound.play();
