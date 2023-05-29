@@ -60,6 +60,7 @@ addEventListener("message", e => {
 
         for (let s in target_volume) {
             let o1, o2 = target_volume[s]
+            console.log(s)
             s.sound(morph_volume(o1, o2, calma))
         }
     }, 1000/60)
