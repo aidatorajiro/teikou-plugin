@@ -36,7 +36,6 @@ let m = (from, to, time) => (from + (to - from) * time)
 let morph_table = {"lng": m,"lat": m,"height": m,"heading": m,"pitch": m,"roll": m,"fov": m}
 let morph_volume = m;
 let target_position;
-let target_volume;
 
 addEventListener("message", e => {
     if (e.source !== parent || !e.data.pos) return;
@@ -58,8 +57,8 @@ addEventListener("message", e => {
         }
         parent.postMessage({ type: "flycamera", arg: arg }, "*");
 
-        for (let s in target_volume) {
-            let o1, o2 = target_volume[s]
+        for (let s in all_sounds) {
+            let o1, o2 = s.tts_volfrom, s.tts_volto
             console.log(s)
             s.sound(morph_volume(o1, o2, calma))
         }
@@ -92,7 +91,8 @@ document.getElementById('shu').addEventListener('click', function () {
         let m = s.tts_metadata
         let o1 = ch(d1,m)
         let o2 = ch(d2,m)
-        target_volume[s] = [o1, o2]
+        s.tts_volfrom = o1
+        s.tts_volto = o2
         console.log(target_volume)
     }
 
