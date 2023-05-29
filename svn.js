@@ -1,4 +1,5 @@
-// reearth.layers.layers[1].infobox.blocks[0].property.default.text 
+// copy(JSON.stringify(reearth.camera))
+// copy(get_all_ttsinfo().join("\n"))
 
 reearth.ui.show(`<div><button id="shu">集中する</button></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -55,6 +56,22 @@ document.getElementById('shu').addEventListener('click', function () {
 
     i++;
 })
+
+parent.postMessage({ type: "get_all_ttsinfo" }, "*");
+
+addEventListener("message", e => {
+    if (e.source !== parent || !e.data.all_ttsinfo) return;
+    console.log(all_ttsinfo)
+});
+
+setInterval(function () {
+    if (Math.random() < 0.001) {
+        let sound = new Howl({
+            src: ['https://aidatorajiro.dev/waveout/test.wav']
+        });
+        sound.play();
+    }
+}, 1000/60)
 </script>`);
 
 reearth.on("message", msg => {
@@ -66,4 +83,15 @@ reearth.on("message", msg => {
     if (msg.type === "flycamera") {
         reearth.camera.flyTo(msg.arg)
     }
+    if (msg.type === "get_all_ttsinfo") {
+        reearth.ui.postMessage({
+            all_ttsinfo: get_all_ttsinfo()
+        });
+    }
 });
+
+function get_all_ttsinfo() {
+    let c = [].concat(...reearth.layers.layers.filter((x)=>(x.infobox))
+        .map((x)=>(x.infobox.blocks.filter(y=>y.extensionId==='ttsinfo'))))
+    return c.map(x=>x.property.default.textdata)
+}
