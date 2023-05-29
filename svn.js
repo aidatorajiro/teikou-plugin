@@ -88,8 +88,8 @@ document.getElementById('shu').addEventListener('click', function () {
         }
     }
 
-    for (let s in all_sounds) {
-        let m = all_sounds[s]
+    for (let s of all_sounds) {
+        let m = s.tts_metadata
         let o1 = ch(d1,m)
         let o2 = ch(d2,m)
         target_volume[s] = [o1, o2]
@@ -110,7 +110,7 @@ addEventListener("message", e => {
     all_ttsinfo = e.data.all_ttsinfo;
 });
 
-let all_sounds = {}
+let all_sounds = new Set()
 
 setInterval(function () {
     if (Math.random() < 0.01) {
@@ -125,7 +125,7 @@ setInterval(function () {
             let sound = new Howl({
                 src: ['https://aidatorajiro.dev/waveout/' + d + '.wav.hi.wav'],
                 onend: function() {
-                    delete all_sounds[sound];
+                    all_sounds.delete(sound);
                     if (digests.length > 0) {
                         recfun()
                     }
@@ -134,7 +134,9 @@ setInterval(function () {
         
             sound.play();
 
-            all_sounds[sound] = metadata;
+            sound.tts_metadata = metadata;
+
+            all_sounds.add(sound);
         }
 
         recfun();

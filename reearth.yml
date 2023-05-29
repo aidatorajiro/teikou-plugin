@@ -1,6 +1,6 @@
 id: svn
 name: svn
-version: 1.36.0
+version: 1.37.0
 extensions:
   - id: svn
     type: widget
