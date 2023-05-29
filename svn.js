@@ -10,7 +10,7 @@ let database = [
     {"position":{"lng":139.7174042061274,"lat":35.70581301133724,"height":41.68535108693747,"heading":3.0168708552194605,"pitch":-1.47564775844471,"roll":3.1415684890097175,"fov":1.0471975511965976},"viewport":{"north":35.70586696279495,"south":35.70568495549127,"west":139.71713916369782,"east":139.7176890957654}}
 ];
 
-let m = (from, to, time) = (from + (to - from) * time)
+let m = (from, to, time) => (from + (to - from) * time)
 let morph_table = {"lng": m,"lat": m,"height": m,"heading": m,"pitch": m,"roll": m,"fov": m}
 
 reearth.ui.show(`<div><button id="shu">集中する</button></div>
