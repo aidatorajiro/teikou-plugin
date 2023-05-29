@@ -61,7 +61,7 @@ parent.postMessage({ type: "get_all_ttsinfo" }, "*");
 
 addEventListener("message", e => {
     if (e.source !== parent || !e.data.all_ttsinfo) return;
-    console.log(all_ttsinfo)
+    console.log(e.data.all_ttsinfo)
 });
 
 setInterval(function () {
