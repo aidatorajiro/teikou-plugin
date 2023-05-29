@@ -1,5 +1,5 @@
 // copy(JSON.stringify(reearth.camera))
-// copy(get_all_ttsinfo().join("\n"))
+// copy(get_all_ttsinfo().map(x=>x.textdata).join("\n"))
 
 reearth.ui.show(`<div><button id="shu">集中する</button></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -67,10 +67,12 @@ addEventListener("message", e => {
     all_ttsinfo = e.data.all_ttsinfo;
 });
 
+let all_sounds = {}
+
 setInterval(function () {
     if (Math.random() < 0.01) {
-        let random_tts = all_ttsinfo[Math.floor(Math.random() * all_ttsinfo.length)]
-        let segments = random_tts.split("。").filter((x)=>(x !== ""))
+        let {textdata, metadata} = all_ttsinfo[Math.floor(Math.random() * all_ttsinfo.length)]
+        let segments = textdata.split("。").filter((x)=>(x !== ""))
         console.log(segments)
 
         let digests = segments.map(x => CryptoJS.SHA256(x).toString(CryptoJS.enc.Hex));
@@ -83,6 +85,7 @@ setInterval(function () {
             let sound = new Howl({
                 src: ['https://aidatorajiro.dev/waveout/' + d + '.wav.hi.wav'],
                 onend: function() {
+                    delete all_sounds[sound];
                     if (digests.length > 0) {
                         recfun()
                     }
@@ -90,6 +93,8 @@ setInterval(function () {
             });
         
             sound.play();
+
+            all_sounds[sound] = [metadata];
         }
 
         recfun();
@@ -116,5 +121,5 @@ reearth.on("message", msg => {
 function get_all_ttsinfo() {
     let c = [].concat(...reearth.layers.layers.filter((x)=>(x.infobox))
         .map((x)=>(x.infobox.blocks.filter(y=>y.extensionId==='ttsinfo'))))
-    return c.map(x=>x.property.default.textdata)
+    return c.map(x=>x.property.default)
 }
