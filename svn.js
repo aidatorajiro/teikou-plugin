@@ -72,8 +72,10 @@ setInterval(function () {
         let random_tts = all_ttsinfo[Math.floor(Math.random() * all_ttsinfo.length)]
         let segments = random_tts.split("。").filter((x)=>(x !== ""))
         console.log(segments)
-        let digest = CryptoJS.SHA256("Message");
+
+        let digests = segments.map(x => CryptoJS.SHA256(x));
         console.log(digest)
+        
         let sound = new Howl({
             src: ['https://aidatorajiro.dev/waveout/test.wav']
         });
