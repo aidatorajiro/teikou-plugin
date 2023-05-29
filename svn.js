@@ -5,7 +5,7 @@ reearth.ui.show(`<div><button id="shu">集中する</button></div>
 <script>
 let lock = false;
 
-let camera_from_start = {"position":{"lng":-158.54022119458145,"lat":13.168764232337136,"height":28136213.44295596,"heading":6.2831853071795205,"pitch":-1.5658174205135622,"roll":0,"fov":1.0471975511965976},"viewport":{"north":90,"south":-90,"west":-180,"east":180}}
+let camera_from_start = {"position":{"lng":140.02879797881644,"lat":29.13949720659771,"height":59117881.22518135,"heading":6.28318530717958,"pitch":-1.567990247532764,"roll":0,"fov":1.0471975511965976},"viewport":{"north":90,"south":-90,"west":-180,"east":180}};
 let camera_from_mid = {"position":{"lng":139.71819628342823,"lat":35.70555617579899,"height":738.736377478599,"heading":6.283185307179518,"pitch":-1.5627148456207833,"roll":0,"fov":1.0471975511965976},"viewport":{"north":35.70672712849253,"south":35.70449567422732,"west":139.71347663445377,"east":139.72291593237688}}
 
 let database = [
