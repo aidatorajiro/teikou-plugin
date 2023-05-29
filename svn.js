@@ -19,7 +19,7 @@ let m = (from, to, time) => (from + (to - from) * time)
 let morph_table = {"lng": m,"lat": m,"height": m,"heading": m,"pitch": m,"roll": m,"fov": m}
 
 document.getElementById('shu').addEventListener('click', function () {
-    let id = i % ${database.length}
+    let id = i % database.length
     let duration = 600;
     let calma = 0;
     let initial_pos = reearth.camera.position
