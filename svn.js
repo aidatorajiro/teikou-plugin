@@ -74,8 +74,8 @@ setInterval(function () {
         console.log(segments)
 
         let digests = segments.map(x => CryptoJS.SHA256(x));
-        console.log(digest)
-        
+        console.log(digests)
+
         let sound = new Howl({
             src: ['https://aidatorajiro.dev/waveout/test.wav']
         });
