@@ -18,11 +18,12 @@ let database = [
 let m = (from, to, time) => (from + (to - from) * time)
 let morph_table = {"lng": m,"lat": m,"height": m,"heading": m,"pitch": m,"roll": m,"fov": m}
 
-document.getElementById('shu').addEventListener('click', function () {
+addEventListener("message", e => {
+    if (e.source !== parent || !e.data.pos) return;
+    let initial_pos = e.data.pos;
     let id = i % database.length
     let duration = 600;
     let calma = 0;
-    let initial_pos = reearth.camera.position
     let it = setInterval(function () {
         calma += 1/duration;
         if (calma >= 1) {
@@ -39,12 +40,21 @@ document.getElementById('shu').addEventListener('click', function () {
     }, 1000/60)
     lock = true
     i++;
+});
+
+document.getElementById('shu').addEventListener('click', function () {
+    parent.postMessage({ type: "getpos" }, "*");
 })
 </script>`);
 
 let lock = false;
 
 reearth.on("message", msg => {
+    if (msg.type === "getpos") {
+        reearth.ui.postMessage({
+            pos: reearth.camera.position
+        });
+    }
     if (msg.type === "flycamera") {
         reearth.camera.flyTo(msg.arg)
     }
