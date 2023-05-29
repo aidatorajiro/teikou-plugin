@@ -1,7 +1,5 @@
 // reearth.layers.layers[1].infobox.blocks[0].property.default.text 
 
-reearth.ui.show(`<button>集中する</button>`);
-
 let database = [
     {"position":{"lng":139.7175872641833,"lat":35.70582453492393,"height":159.38704776078922,"heading":6.283185307179524,"pitch":-1.5658174205105073,"roll":0,"fov":1.0471975511965976},"viewport":{"north":35.70607104278182,"south":35.70559271951014,"west":139.7165695511717,"east":139.7186049771974}},
     {"position":{"lng":139.71808334473658,"lat":35.70475209987065,"height":14.14448821007104,"heading":3.016871018759491,"pitch":-1.4756476339521374,"roll":3.141568324726931,"fov":1.0471975511965976},"viewport":{"north":35.7047689317203,"south":35.70471024027258,"west":139.71799354141046,"east":139.71817966158042}},
@@ -9,4 +7,20 @@ let database = [
     {"position":{"lng":139.7174042061274,"lat":35.70581301133724,"height":41.68535108693747,"heading":3.0168708552194605,"pitch":-1.47564775844471,"roll":3.1415684890097175,"fov":1.0471975511965976},"viewport":{"north":35.70586696279495,"south":35.70568495549127,"west":139.71713916369782,"east":139.7176890957654}}
 ];
 
+reearth.ui.show(`<div>
+    <button id="shu">集中する</button>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+let i = 0;
+document.getElementById('shu').addEventListener('click', function () {
+    parent.postMessage({ type: "shuchu", id: (i % ${database.length}) }, "*");
+    i++;
+})
+</script>`);
 
+reearth.on("message", msg => {
+  if (msg.type === "shuchu") {
+    reearth.camera.flyTo(database[msg.id].position)
+  }
+});
