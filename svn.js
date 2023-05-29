@@ -45,9 +45,15 @@ let i = 0;
 document.getElementById('shu').addEventListener('click', function () {
     if (lock === true) { return; }
 
-    i %= database.length
-    target_position = database[i].position
+    if (i === 0) {
+        target_position = camera_from_start.position
+    } else if (i % 2 === 0) {
+        target_position = camera_from_mid.position
+    } else {
+        target_position = database[(i - 1) / 2].position
+    }
     parent.postMessage({ type: "getpos" }, "*");
+
     i++;
 })
 </script>`);
