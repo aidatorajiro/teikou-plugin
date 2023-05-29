@@ -1,5 +1,10 @@
 // reearth.layers.layers[1].infobox.blocks[0].property.default.text 
 
+reearth.ui.show(`<div><button id="shu">集中する</button></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+let i = 0;
+
 let camera_from_start = {"position":{"lng":-158.54022119458145,"lat":13.168764232337136,"height":28136213.44295596,"heading":6.2831853071795205,"pitch":-1.5658174205135622,"roll":0,"fov":1.0471975511965976},"viewport":{"north":90,"south":-90,"west":-180,"east":180}}
 let camera_from_mid = {"position":{"lng":139.71819628342823,"lat":35.70555617579899,"height":738.736377478599,"heading":6.283185307179518,"pitch":-1.5627148456207833,"roll":0,"fov":1.0471975511965976},"viewport":{"north":35.70672712849253,"south":35.70449567422732,"west":139.71347663445377,"east":139.72291593237688}}
 
@@ -13,20 +18,8 @@ let database = [
 let m = (from, to, time) => (from + (to - from) * time)
 let morph_table = {"lng": m,"lat": m,"height": m,"heading": m,"pitch": m,"roll": m,"fov": m}
 
-reearth.ui.show(`<div><button id="shu">集中する</button></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-let i = 0;
 document.getElementById('shu').addEventListener('click', function () {
-    parent.postMessage({ type: "shuchu", id: (i % ${database.length}) }, "*");
-    i++;
-})
-</script>`);
-
-let lock = false;
-
-reearth.on("message", msg => {
-  if (msg.type === "shuchu" && lock === false) {
+    let id = i % ${database.length}
     let duration = 600;
     let calma = 0;
     let initial_pos = reearth.camera.position
@@ -37,13 +30,22 @@ reearth.on("message", msg => {
             lock = false;
         }
         let arg = {}
-        for (let k in database[msg.id].position) {
+        for (let k in database[id].position) {
             let v1 = initial_pos[k]
-            let v2 = database[msg.id].position[k]
+            let v2 = database[id].position[k]
             arg[k] = morph_table[k](v1, v2, calma)
         }
-        reearth.camera.flyTo(arg)
+        parent.postMessage({ type: "flycamera", arg: arg }, "*");
     }, 1000/60)
     lock = true
-  }
+    i++;
+})
+</script>`);
+
+let lock = false;
+
+reearth.on("message", msg => {
+    if (msg.type === "flycamera") {
+        reearth.camera.flyTo(msg.arg)
+    }
 });
