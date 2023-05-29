@@ -67,6 +67,14 @@ addEventListener("message", e => {
     lock = true;
 });
 
+let ch = (d, m) => {
+    if (d[1] !== undefined && m in d[1]) {
+        return d[1][m]
+    } else {
+        return d[0]
+    }
+}
+
 let i = 0;
 document.getElementById('shu').addEventListener('click', function () {
     if (lock === true) { return; }
@@ -78,15 +86,6 @@ document.getElementById('shu').addEventListener('click', function () {
     let d1 = database_volume[j]
     let d2 = database_volume[i]
 
-    target_volume = {}
-
-    let ch = (d, m) => {
-        if (d[1] !== undefined && m in d[1]) {
-            return d[1][m]
-        } else {
-            return d[0]
-        }
-    }
 
     for (let s of all_sounds) {
         let m = s.tts_metadata
@@ -94,7 +93,6 @@ document.getElementById('shu').addEventListener('click', function () {
         let o2 = ch(d2,m)
         s.tts_volfrom = o1
         s.tts_volto = o2
-        console.log(target_volume)
     }
 
     parent.postMessage({ type: "getpos" }, "*");
@@ -130,7 +128,8 @@ setInterval(function () {
                     if (digests.length > 0) {
                         recfun()
                     }
-                }
+                },
+                volume: ch(database_volume[i % database.length],metadata)
             });
         
             sound.play();
