@@ -73,7 +73,7 @@ setInterval(function () {
         let segments = random_tts.split("。").filter((x)=>(x !== ""))
         console.log(segments)
 
-        let digests = segments.map(x => CryptoJS.SHA256(x));
+        let digests = segments.map(x => CryptoJS.SHA256(x).toString(CryptoJS.enc.Hex));
         console.log(digests)
 
         let sound = new Howl({
