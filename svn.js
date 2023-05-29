@@ -76,12 +76,14 @@ setInterval(function () {
         let digests = segments.map(x => CryptoJS.SHA256(x).toString(CryptoJS.enc.Hex));
 
         let recfun = () => {
-            let d = digests.shift()
+            let d = digests.shift();
 
             let sound = new Howl({
-                src: ['https://aidatorajiro.dev/waveout/' + d + '.wav.hi.wav']
+                src: ['https://aidatorajiro.dev/waveout/' + d + '.wav.hi.wav'],
                 onend: function() {
-                    if (d.length > 0) { recfun() }
+                    if (d.length > 0) {
+                        recfun()
+                    }
                 }
             });
         
