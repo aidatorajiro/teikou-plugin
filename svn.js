@@ -121,6 +121,13 @@ setInterval(function () {
         let recfun = () => {
             let d = digests.shift();
 
+            let cc;
+            if (i > 0) {
+                cc = ch(database_volume[(i - 1) % database.length],metadata)
+            } else {
+                cc = ch(database_volume[0],metadata)
+            }
+
             let sound = new Howl({
                 src: ['https://aidatorajiro.dev/waveout/' + d + '.wav.hi.wav'],
                 onend: function() {
@@ -129,7 +136,7 @@ setInterval(function () {
                         recfun()
                     }
                 },
-                volume: ch(database_volume[(i - 1) % database.length],metadata)
+                volume: cc
             });
         
             sound.play();
