@@ -58,9 +58,10 @@ addEventListener("message", e => {
         parent.postMessage({ type: "flycamera", arg: arg }, "*");
 
         for (let s in all_sounds) {
-            let o1, o2 = s.tts_volfrom, s.tts_volto
-            console.log(s)
-            s.sound(morph_volume(o1, o2, calma))
+            let o1 = s.tts_volfrom;
+            let o2 = s.tts_volto;
+            console.log(s);
+            s.sound(morph_volume(o1, o2, calma));
         }
     }, 1000/60)
     lock = true;
