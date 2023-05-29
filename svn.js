@@ -91,6 +91,8 @@ setInterval(function () {
         
             sound.play();
         }
+
+        recfun();
     }
 }, 1000/60)
 </script>`);
