@@ -78,6 +78,8 @@ setInterval(function () {
         let recfun = () => {
             let d = digests.shift();
 
+            console.log('https://aidatorajiro.dev/waveout/' + d + '.wav.hi.wav')
+
             let sound = new Howl({
                 src: ['https://aidatorajiro.dev/waveout/' + d + '.wav.hi.wav'],
                 onend: function() {
