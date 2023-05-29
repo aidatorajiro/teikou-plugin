@@ -3,6 +3,7 @@
 
 reearth.ui.show(`<div><button id="shu">集中する</button></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 let lock = false;
 
@@ -59,13 +60,20 @@ document.getElementById('shu').addEventListener('click', function () {
 
 parent.postMessage({ type: "get_all_ttsinfo" }, "*");
 
+let all_ttsinfo;
+
 addEventListener("message", e => {
     if (e.source !== parent || !e.data.all_ttsinfo) return;
-    console.log(e.data.all_ttsinfo)
+    all_ttsinfo = e.data.all_ttsinfo;
 });
 
 setInterval(function () {
-    if (Math.random() < 0.01) {
+    if (Math.random() < 0.04) {
+        let random_tts = all_ttsinfo[Math.floor(Math.random() * all_ttsinfo.length)]
+        let segments = random_tts.split("。").filter((x)=>(x !== ""))
+        console.log(segments)
+        let digest = CryptoJS.SHA256("Message");
+        console.log(digest)
         let sound = new Howl({
             src: ['https://aidatorajiro.dev/waveout/test.wav']
         });
