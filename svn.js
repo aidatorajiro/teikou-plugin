@@ -21,9 +21,22 @@ let database = [
     {"position":{"lng":139.7174042061274,"lat":35.70581301133724,"height":41.68535108693747,"heading":3.0168708552194605,"pitch":-1.47564775844471,"roll":3.1415684890097175,"fov":1.0471975511965976},"viewport":{"north":35.70586696279495,"south":35.70568495549127,"west":139.71713916369782,"east":139.7176890957654}}
 ];
 
+let database_volume = [
+    [1],
+    [0.05, {'呪縛霊': 1}],
+    [1],
+    [0.05, {'呪縛霊': 1}],
+    [1],
+    [0.05, {'呪縛霊': 1}],
+    [1],
+    [0.05, {'呪縛霊': 1}]
+]
+
 let m = (from, to, time) => (from + (to - from) * time)
 let morph_table = {"lng": m,"lat": m,"height": m,"heading": m,"pitch": m,"roll": m,"fov": m}
+let morph_volume = m;
 let target_position;
+let target_volume;
 
 addEventListener("message", e => {
     if (e.source !== parent || !e.data.pos) return;
@@ -36,6 +49,7 @@ addEventListener("message", e => {
             clearInterval(it);
             lock = false;
         }
+
         let arg = {}
         for (let k in target_position) {
             let v1 = initial_pos[k]
@@ -43,6 +57,11 @@ addEventListener("message", e => {
             arg[k] = morph_table[k](v1, v2, calma)
         }
         parent.postMessage({ type: "flycamera", arg: arg }, "*");
+
+        for (let s in target_volume) {
+            let o1, o2 = target_volume[s]
+            s.sound(morph_volume(o1, o2, calma))
+        }
     }, 1000/60)
     lock = true;
 });
@@ -50,9 +69,32 @@ addEventListener("message", e => {
 let i = 0;
 document.getElementById('shu').addEventListener('click', function () {
     if (lock === true) { return; }
-
     i %= database.length;
     target_position = database[i].position
+
+    let j = i - 1
+    if (j < 0) { j = database.length - 1 }
+    let d1 = database_volume[j]
+    let d2 = database_volume[i]
+
+    target_volume = {}
+
+    let ch = (d, m) => {
+        if (m in d[1]) {
+            return d[1][m]
+        } else {
+            return d[0]
+        }
+    }
+
+    for (let s in all_sounds) {
+        let m = all_sounds[s]
+        let o1 = ch(d1,m)
+        let o2 = ch(d2,m)
+        target_volume[s] = [o1, o2]
+        console.log(target_volume)
+    }
+
     parent.postMessage({ type: "getpos" }, "*");
 
     i++;
@@ -73,14 +115,11 @@ setInterval(function () {
     if (Math.random() < 0.01) {
         let {textdata, metadata} = all_ttsinfo[Math.floor(Math.random() * all_ttsinfo.length)]
         let segments = textdata.split("。").filter((x)=>(x !== ""))
-        console.log(segments)
 
         let digests = segments.map(x => CryptoJS.SHA256(x).toString(CryptoJS.enc.Hex));
 
         let recfun = () => {
             let d = digests.shift();
-
-            console.log('https://aidatorajiro.dev/waveout/' + d + '.wav.hi.wav')
 
             let sound = new Howl({
                 src: ['https://aidatorajiro.dev/waveout/' + d + '.wav.hi.wav'],
@@ -94,7 +133,7 @@ setInterval(function () {
         
             sound.play();
 
-            all_sounds[sound] = [metadata];
+            all_sounds[sound] = metadata;
         }
 
         recfun();
