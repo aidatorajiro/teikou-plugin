@@ -80,7 +80,7 @@ document.getElementById('shu').addEventListener('click', function () {
     target_volume = {}
 
     let ch = (d, m) => {
-        if (m in d[1]) {
+        if (d[1] !== undefined && m in d[1]) {
             return d[1][m]
         } else {
             return d[0]
